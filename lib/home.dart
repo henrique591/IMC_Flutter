@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+// Henrique Araujo
+//Henriquearaujo1998@gmail.com
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,9 +17,11 @@ class _HomeState extends State<Home> {
 
   GlobalKey<FormState> _formakey = GlobalKey<FormState>();
 
+// Variaveis privadas
   String _infoText = "Informe seus dados";
 
   double _imc = 0.0;
+  int cor = 0;
   String _statusPeso = "kg";
   String _statusAltura = "m";
 
@@ -111,9 +115,10 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 20,
+              const SizedBox(
+                height: 1,
               ),
+              //todo o corpo do app
               Status(),
               Grafico(),
               Row(
@@ -123,6 +128,7 @@ class _HomeState extends State<Home> {
               FieldPeso(),
               FieldAltura(),
               ButtonCalcular(),
+              Tabela()
             ],
           ),
         ),
@@ -130,6 +136,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // entrada de dados peso
   FieldPeso() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -148,6 +155,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  //Entrada de dados Altura
   FieldAltura() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -166,6 +174,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // Toda a estrutura do Botão Calcular
   ButtonCalcular() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -186,6 +195,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // texte do resultado
   Resultado() {
     return Text(
       _infoText,
@@ -194,6 +204,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // texto link para mais informação sobre IMC
   TextInf() {
     return TextButton(
         onPressed: () => showDialog(
@@ -204,6 +215,7 @@ class _HomeState extends State<Home> {
         child: Text('infor'));
   }
 
+  // Tela com as Informações sobre o IMC
   Info() {
     return Container(
       height: 250,
@@ -224,6 +236,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // Grafico maneiro que eu fiz, mostrando o valor do seu IMC
   Grafico() {
     return SfRadialGauge(
       axes: <RadialAxis>[
@@ -276,7 +289,7 @@ class _HomeState extends State<Home> {
                   endWidth: 50),
               GaugeRange(
                   startValue: 40,
-                  endValue: 40,
+                  endValue: 41,
                   color: Colors.brown,
                   startWidth: 50,
                   endWidth: 50),
@@ -308,17 +321,233 @@ class _HomeState extends State<Home> {
     );
   }
 
+  /// Texto superior mostrando altura e peso
   Status() {
     return IntrinsicHeight(
-        child: new Row(
+        child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Text('24 anos'),
         VerticalDivider(),
         Text(_statusAltura),
         VerticalDivider(),
         Text(_statusPeso),
+        VerticalDivider(),
       ],
     ));
+  }
+
+// Lista mostrando o IMC e marca o seu IMC
+  Tabela() {
+    return Column(
+      children: [
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.arrow_right,
+                color: _imc == 0
+                    ? Color(0xFFFAFAFA)
+                    : _imc < 15
+                        ? Colors.black
+                        : Color(0xFFFAFAFA),
+              ),
+              Container(
+                width: 20,
+                height: 20,
+                color: Color.fromRGBO(48, 46, 32, 0.897),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Serveramente abaixo do peso                                                        < 15',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc < 15
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_right,
+                  color: _imc == 0
+                      ? Color(0xFFFAFAFA)
+                      : _imc >= 15.0 && _imc < 16.0
+                          ? Colors.black
+                          : Color(0xFFFAFAFA)),
+              Container(
+                width: 20,
+                height: 20,
+                color: Color.fromARGB(255, 10, 135, 151),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Muito abaixo do peso                                                                 15.0 - 16.0',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc >= 15.0 && _imc < 16.0
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_right,
+                  color: _imc == 0
+                      ? Color(0xFFFAFAFA)
+                      : _imc >= 16.0 && _imc < 18.5
+                          ? Colors.black
+                          : Color(0xFFFAFAFA)),
+              Container(
+                width: 20,
+                height: 20,
+                color: Color.fromARGB(255, 65, 83, 161),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Abaixo do peso                                                                            16.0 - 18.5',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc >= 16.0 && _imc < 18.5
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_right,
+                  color: _imc == 0
+                      ? Color(0xFFFAFAFA)
+                      : _imc >= 18.5 && _imc < 25.0
+                          ? Colors.black
+                          : Color(0xFFFAFAFA)),
+              Container(
+                width: 20,
+                height: 20,
+                color: Colors.greenAccent.shade400,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Saudável                                                                                       18.5 - 25.0 ',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc >= 18.5 && _imc < 25.0
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_right,
+                  color: _imc == 0
+                      ? Color(0xFFFAFAFA)
+                      : _imc >= 25.0 && _imc < 30.0
+                          ? Colors.black
+                          : Color(0xFFFAFAFA)),
+              Container(
+                width: 20,
+                height: 20,
+                color: Color.fromARGB(255, 212, 174, 117),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Sobrepeso                                                                                    25.0 - 30.0',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc >= 25.0 && _imc < 30.0
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_right,
+                  color: _imc == 0
+                      ? Color(0xFFFAFAFA)
+                      : _imc >= 30.0 && _imc < 35.0
+                          ? Colors.black
+                          : Color(0xFFFAFAFA)),
+              Container(
+                width: 20,
+                height: 20,
+                color: Color.fromARGB(255, 252, 118, 78),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Obesidade moderada                                                                 30.0 - 35.0',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc >= 30.0 && _imc < 35.0
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_right,
+                  color: _imc == 0
+                      ? Color(0xFFFAFAFA)
+                      : _imc >= 35.0 && _imc > 40.0
+                          ? Colors.black
+                          : Color(0xFFFAFAFA)),
+              Container(
+                width: 20,
+                height: 20,
+                color: Colors.red,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  'Obesidade alta                                                                             35.0 - 40.0',
+                  style: TextStyle(
+                      color: _imc == 0
+                          ? Colors.black
+                          : _imc >= 35.0 && _imc > 40.0
+                              ? Colors.amber
+                              : Colors.black))
+            ],
+          ),
+        ),
+        Divider()
+      ],
+    );
   }
 }
